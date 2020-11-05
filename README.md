@@ -1,4 +1,4 @@
-# Simple install guide for ROCm and Tensorflow, designed for Ubuntu 20.4.1 LTS and Radeon RX580 
+# Installation of ROCm and Tensorflow for Ubuntu 20.4.1 LTS and Radeon RX580 
 This guide will show you how to set up your clean **Ubuntu 20.4.1 LTS** system ready to run **Tensorflow** projects, using **ROCm** to take advantage of the power of your **RX580 graphics card (gfx803)** in a tested, easy and fast way (It should work on other supported Ubuntu versions or other graphic cards too, with only slight changes).
 
 This is basically a resume of the [official guide by AMD](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html), and the [unofficial (and great) guide by Mathieu Poliquin](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html). I highly recommend to check those links, in order to understand what you are doing and why, since I wont explain every single command.
