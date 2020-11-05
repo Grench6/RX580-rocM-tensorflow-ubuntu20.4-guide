@@ -3,7 +3,7 @@ This guide will show you how to set up your clean **Ubuntu 20.4.1 LTS** system r
 
 This is basically a resume of the [official guide by AMD](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html), and the [unofficial guide by Mathieu Poliquin](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html). I highly recommend to check those links, in order to understand what you are doing and why, since I wont explain every single command.
 
-There is another important thing to notice: **In this guide we downgrade ROCm to 3.5.1, since there are some bugs in posterior versions which have not been fixed yet, not *at all*** (bugs [1](https://github.com/RadeonOpenCompute/ROCm/issues/1269), [2](https://github.com/RadeonOpenCompute/ROCm/issues/1265)). Errors like `/src/external/hip-on-vdi/rocclr/hip_code_object.cpp:120: guarantee(false && "hipErrorNoBinaryForGpu: Coudn't find binary for current devices!") Aborted (core dumped)` are fixed this way.
+There is another important thing to notice: **In this guide we downgrade ROCm to 3.5.1, since there are some bugs in posterior versions which have not been fixed yet, not *at all*** (bugs [1](https://github.com/RadeonOpenCompute/ROCm/issues/1269), [2](https://github.com/RadeonOpenCompute/ROCm/issues/1265)). Errors like `/src/external/hip-on-vdi/rocclr/hip_code_object.cpp:120: guarantee(false && "hipErrorNoBinaryForGpu: Coudn't find binary for current devices!") Aborted (core dumped)` are solved here.
 
 Lets get started!
 ## Install ROCm
