@@ -59,7 +59,7 @@ python3 tf_cnn_benchmarks.py --num_gpus=1 --batch_size=32 --model=resnet50
 ```
 It will then start the benchmark. Expect it to take some time, specially if it is the first time, but no more than 5-10 minutes. If you still get stuck in the warm up for more than that time then give it some more. After that it wont take that long again.
 
-At the end of the output you will see this with the performance of your graphic card:
+- [x] **Check your progress:** If you get any error that prevents the script from above to complete successfully you should pray God for mercy while you google a your error, hopefully someone already solved it. If you see something like the output bellow, get yourself a taco and be happy, you f@#$%&g did it!
 > total images/sec: 87.92
 
 ***Have fun! :D***
