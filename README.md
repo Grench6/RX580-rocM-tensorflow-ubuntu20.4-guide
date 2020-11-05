@@ -49,8 +49,8 @@ exit()
 ```
 You should see something like this: `<tf.Tensor: shape=(), dtype=int32, numpy=7>`
 
-If you are reading this then you should be glad of yourself because you did it! your machine is ready to use tensorflow-rocm!
-## Test with a benchmark
+If you are reading this then you should be glad of yourself because your machine is now ready to use tensorflow-rocm! Anyway you should consider testing it with something more complex, like a benchmark.
+## Test with a benchmark, the last frontier.
 ```
 sudo apt install git
 git clone https://github.com/tensorflow/benchmarks
