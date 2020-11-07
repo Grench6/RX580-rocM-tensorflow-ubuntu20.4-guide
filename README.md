@@ -49,7 +49,8 @@ import tensorflow as tf
 tf.add(2,5)
 exit()
 ```
-You should see something like this: `<tf.Tensor: shape=(), dtype=int32, numpy=7>`
+You should see something like this: 
+> <tf.Tensor: shape=(), dtype=int32, numpy=7>
 
 Congrats, your machine is now ready to use tensorflow-rocm! You should still consider testing it with something more complex, like a benchmark.
 ## Test with a benchmark
