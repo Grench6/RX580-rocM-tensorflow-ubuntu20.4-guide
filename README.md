@@ -62,7 +62,7 @@ python3 tf_cnn_benchmarks.py --num_gpus=1 --batch_size=32 --model=resnet50
 ```
 Expect it to take some time (5-10 minutes), specially if it is the first time. You may think you got stuck in the warm up but be patient, it should not take that long next time.
 
-- [x] **Check your progress:** If you see something like the output bellow then go and get yourself a taco, you did it!
+If you see something like the output bellow then go and get yourself a taco, you did it!
 > total images/sec: 87.92
 
 ***Have fun! :D***
