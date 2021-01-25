@@ -1,4 +1,16 @@
 # Installation of ROCm and Tensorflow on Ubuntu 20.4.1 LTS for Radeon RX580 
+**This guide was updated as of  25.01.2020 due to new version of tensorflow-rocm being incompatible.  I've also added downgrade instructions**
+
+
+## HOW TO DOWNGRADE (EXECUTE THIS SECTION ONLY IF YOU HAVE ANOTHER VERSION OF ROCm INSTALLED!)
+1. ```sudo apt autoremove rocm-dkms```
+2.  Make sure that all packages are removed under /opt/rocm-xxx.
+3. Check ```sudo dpkg -l | grep hsa``` . Replace hsa with hip, llvm, rocm, rock and make sure that all packages are removed with: sudo apt purge . Recommend to do the same for all other additional packages also if you installed anything explicitly.
+*I have occasionally removed the GUI for Ubuntu, so be careful!*
+4. Reboot the system
+
+## INSTALLATION OF ROCm 3.5.1
+
 This guide will show you how to set up your **clean Ubuntu 20.4.1 LTS** OS to be ready to run **Tensorflow** projects, using **ROCm** to take advantage of the power of your **RX580 graphics card (or any gfx803)** in a tested, easy and fast way (It should work on other supported Ubuntu versions and other graphic cards too, with only slight changes).
 
 It is basically a resume of the [official guide by AMD](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html), and the [unofficial guide by Mathieu Poliquin](https://www.videogames.ai/Install-ROCM-Machine-Learning-AMD-GPU). I highly recommend to check those links, in order to understand what you are doing and why.
@@ -38,10 +50,12 @@ You are half the way now!
 ```
 sudo apt install python3 python3-pip
 sudo apt install rocm-libs miopen-hip
-pip3 install tensorflow-rocm
+pip3 install -Iv tensorflow-rocm==2.2.0
+export LD_LIBRARY_PATH=/opt/rocm-3.5.1/lib
 sudo apt install rccl
 sudo apt install libtinfo5
 sudo reboot
+ sudo ldconfig
 ```
 - [x] **Check your progress:** At this point you should be able to import Tensorflow in Python, make a simple operation, and exit without any error. Try the following in a python interactive session:
 ```python
