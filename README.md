@@ -2,12 +2,14 @@
 **This guide was updated as of  25.01.2020 due to new version of tensorflow-rocm being incompatible.  I've also added downgrade instructions**
 
 
-## HOW TO DOWNGRADE (EXECUTE THIS SECTION ONLY IF YOU HAVE ANOTHER VERSION OF ROCm INSTALLED!)
+## HOW TO DOWNGRADE FROM A NEWER ROCm VERSION (EXECUTE THIS SECTION ONLY IF YOU HAVE ANOTHER VERSION OF ROCm INSTALLED!)
 1. ```sudo apt autoremove rocm-dkms```
 2.  Make sure that all packages are removed under /opt/rocm-xxx.
 3. Check ```sudo dpkg -l | grep hsa``` . Replace hsa with hip, llvm, rocm, rock and make sure that all packages are removed with: sudo apt purge . Recommend to do the same for all other additional packages also if you installed anything explicitly.
 *I have occasionally removed the GUI for Ubuntu, so be careful!*
 4. Reboot the system
+
+P.S. It's preferrable to do a fresh Ubuntu reinstall instead of removing ROCm - strange bugs may occur.
 
 ## INSTALLATION OF ROCm 3.5.1
 
@@ -25,20 +27,33 @@ sudo apt dist-upgrade
 sudo apt install libnuma-dev
 sudo reboot
 ```
+These commands also upgrade the kernel. Unfortunately, ROCm needs specific kernel to run on. So you need to downgrade your kernel:
+1. Reboot the computer; In GRUB menu select "Additional options for Ubuntu" and select "Boot with kernel 5.4.0-42-generic (This is the default one Ubuntu 20.04 LTS is shipped with). Also memorize all the other kernel versions from the entries of that menu (5.8.0 by the time of writing this article).
+2. Remove the newer kernels: ``` sudo apt-get purge *5.8.0* ``` (and/or any other versions except for the 5.4.0-42-generic)
+3. sudo reboot
+Then check your kernel version (it should be 5.4.0-42-generic):
+```
+uname -r
+```
+Then add the repo and install rocm-dkms:
+
 ```
 wget -q -O - http://repo.radeon.com/rocm/apt/3.5.1/rocm.gpg.key | sudo apt-key add -
 echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/3.5.1/ xenial main' | sudo tee /etc/apt/sources.list.d/rocm.list
 sudo apt update
 sudo apt install rocm-dkms && sudo reboot
 ```
+Set user permissions to access video card features:
 ```
 sudo usermod -a -G video $LOGNAME
 sudo usermod -a -G render $LOGNAME
 sudo reboot
 ```
+Add rocm to PATH:
 ```
 echo 'export PATH=$PATH:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin' | sudo tee -a /etc/profile.d/rocm.sh
 sudo ldconfig
+sudo reboot
 ```
 - [x] **Check your progress:** At this point you should be able to enter `rocminfo` into a terminal without getting any error. You should also see your video card name in the command output (something like this):
 > Name:                    gfx803                             
@@ -55,7 +70,6 @@ export LD_LIBRARY_PATH=/opt/rocm-3.5.1/lib
 sudo apt install rccl
 sudo apt install libtinfo5
 sudo reboot
- sudo ldconfig
 ```
 - [x] **Check your progress:** At this point you should be able to import Tensorflow in Python, make a simple operation, and exit without any error. Try the following in a python interactive session:
 ```python
@@ -65,6 +79,17 @@ exit()
 ```
 You should see something like this: 
 > <tf.Tensor: shape=(), dtype=int32, numpy=7>
+
+If you see an error:
+```
+Could not load dynamic library 'libhip_hcc.so'; dlerror: libhip_hcc.so: cannot open shared object file: No such file or directory
+```
+Then, you can use any workaround from this [issue](https://github.com/RadeonOpenCompute/ROCm/issues/1163). I have used:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/hip/lib
+sudo ldconfig
+```
+This will only temporarily set the variable. If this fix works, you need to permanently set the variable: [Link](https://askubuntu.com/questions/887442/how-to-permanently-set-an-environment-variable)
 
 Congrats, your machine is now ready to use tensorflow-rocm! You should still consider testing it with something more complex, like a benchmark.
 ## Test with a benchmark
@@ -78,5 +103,9 @@ Expect it to take some time (5-10 minutes), specially if it is the first time. Y
 
 If you see something like the output bellow then go and get yourself a taco, you did it!
 > total images/sec: 87.92
+
+P.S. I (author of the updated version) personally have got only 36.6 images/sec:
+> total images/sec: 36.53
+
 
 ***Have fun! :D***
