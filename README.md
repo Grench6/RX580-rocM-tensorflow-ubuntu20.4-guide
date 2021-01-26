@@ -66,7 +66,6 @@ You are half the way now!
 sudo apt install python3 python3-pip
 sudo apt install rocm-libs miopen-hip
 pip3 install -Iv tensorflow-rocm==2.2.0
-export LD_LIBRARY_PATH=/opt/rocm-3.5.1/lib
 sudo apt install rccl
 sudo apt install libtinfo5
 sudo reboot
