@@ -1,8 +1,8 @@
-# Installation of ROCm and Tensorflow on Ubuntu 20.4.1 LTS for Radeon RX580 
-**This guide was updated as of 25.01.2021 due to new version of tensorflow-rocm being incompatible.**
+# Installation of ROCm and TensorFlow on Ubuntu 20.4.1 LTS for Radeon RX580 
+**25.01.2021: Updated due to new version of tensorflow-rocm being incompatible.**
 
 
-This guide will show you how to set up your **clean Ubuntu 20.4.1 LTS** OS to be ready to run **Tensorflow** projects, using **ROCm** to take advantage of the power of your **RX580 graphics card (or any gfx803)** in a tested, easy and fast way (It should work on other supported Ubuntu versions and other graphic cards too, with only slight changes).
+This guide will show you how to set up your **fresh Ubuntu 20.4.1 LTS** OS to be ready to run **TensorFlow** projects, using **ROCm** to take advantage of the power of your **RX580 graphics card (or any gfx803)** in a tested, easy and fast way (It should work on other supported Ubuntu versions and other graphic cards too, with only slight changes).
 
 It is basically a resume of the [official guide by AMD](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html), and the [unofficial guide by Mathieu Poliquin](https://www.videogames.ai/Install-ROCM-Machine-Learning-AMD-GPU). I highly recommend to check those links, in order to understand what you are doing and why.
 
@@ -16,7 +16,7 @@ Lets get started!
 *I have occasionally removed the GUI for Ubuntu, so be careful!*
 4. Reboot the system
 
-P.S. It's preferrable to do a fresh Ubuntu reinstall instead of removing ROCm - strange bugs may occur.
+**It's preferrable to do a fresh Ubuntu reinstall instead of removing ROCm (strange bugs may occur).**
 ## Install ROCm 3.5.1
 ```
 sudo apt update
@@ -24,8 +24,10 @@ sudo apt dist-upgrade
 sudo apt install libnuma-dev
 sudo reboot
 ```
-- These commands also upgrade the kernel. Unfortunately, ROCm needs specific kernel to run on (5.4.0-42-generic). To downgrade your kernel:
-  1. Reboot the computer. In GRUB menu select "Additional options for Ubuntu" and select "Boot with kernel 5.4.0-42-generic (This is the default one Ubuntu 20.04 LTS is shipped with). Also memorize all the other kernel versions from the entries of that menu (5.8.0 by the time of writing this article)
+- The above commands also upgrade the kernel. Unfortunately, ROCm needs specific kernel to run on (5.4.0-42-generic). 
+
+  To downgrade your kernel:
+  1. Reboot the computer. In GRUB menu select *Additional options for Ubuntu* and select *Boot with kernel 5.4.0-42-generic* (This is the default one Ubuntu 20.04 LTS is shipped with). Also memorize all the other kernel versions from the entries of that menu (5.8.0 by the time of writing this article)
   1. Remove the newer kernels: ``` sudo apt-get purge *5.8.0* ``` (and/or any other versions except for the 5.4.0-42-generic)
   1. Reboot and check your kernel version with ```uname -r``` (it should be 5.4.0-42-generic)
 
@@ -63,7 +65,7 @@ sudo apt install rccl
 sudo apt install libtinfo5
 sudo reboot
 ```
-- [x] **Check your progress:** At this point you should be able to import Tensorflow in Python, make a simple operation, and exit without any error. Try the following in a python interactive session:
+- [x] **Check your progress:** At this point you should be able to import Tensorflow in Python, make a simple operation, and exit without any error. Try the following in a Python interactive session:
 ```python
 import tensorflow as tf
 tf.add(2,5)
@@ -76,14 +78,14 @@ You should see something like this:
   ```
   Could not load dynamic library 'libhip_hcc.so'; dlerror: libhip_hcc.so: cannot open shared object file: No such file or directory
   ```
-  Then, you can use any workaround from this [issue](https://github.com/RadeonOpenCompute/ROCm/issues/1163). I have used:
+  You could use any workaround from [this issue](https://github.com/RadeonOpenCompute/ROCm/issues/1163). Here is one:
   ```
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rocm/hip/lib
   sudo ldconfig
   ```
-  This will only temporarily set the variable. If this fix works, you need to permanently set the variable: [Link](https://askubuntu.com/questions/887442/how-to-permanently-set-an-environment-variable)
+  If this fix works, you will need to [permanently set the variable](https://askubuntu.com/questions/887442/how-to-permanently-set-an-environment-variable).
 
-Congrats, your machine is now ready to use tensorflow-rocm! You should still consider testing it with something more complex, like a benchmark.
+Congrats! Your machine is now ready to use tensorflow-rocm! You should still consider testing it with something more complete, like a benchmark.
 ## Test with a benchmark
 ```
 sudo apt install git
@@ -91,13 +93,17 @@ git clone https://github.com/tensorflow/benchmarks
 cd ./benchmarks/scripts/tf_cnn_benchmarks
 python3 tf_cnn_benchmarks.py --num_gpus=1 --batch_size=32 --model=resnet50
 ```
-Expect it to take some time (5-10 minutes), specially if it is the first time. You may think you got stuck in the warm up but be patient, it should not take that long next time.
+Expect it to take some time (5-10 minutes). If you think you got stuck in the warm up, be patient, it should not take that long the next time.
 
-If you see something like the output bellow (numbers may vary a lot) then go and get yourself a taco, you did it!
+If you see something like the output bellow (numbers may vary a lot, someone got 36.56) then go and get yourself a taco 🌮, you did it!
 > total images/sec: 87.92
 
 ***Have fun! :D***
 
-
 -------
-Special thanks to [Boris Timofeenko](https://github.com/boriswinner) for updating this guide.
+# Some additional stuff
+
+## HIP Installation
+**HIP** allows developers to convert CUDA code to portable C++. The same source code can be compiled to run on NVIDIA or AMD GPUs. HIP code can be developed either on AMD ROCm platform using HIP-Clang compiler, or a CUDA platform with NVCC installed. **HIP-Clang** is the compiler for compiling HIP programs on AMD platform (**Clang** as front end, **LLVM** as its back end).
+
+If you want to compile aplications/samples using HIP or if you are having issues with Clang (not being installed, or being incorrectly installed), then [check this link](https://rocmdocs.amd.com/en/latest/Installation_Guide/HIP-Installation.html#amd-platform) for detailed instructions on installing/building HIP-Clang.
