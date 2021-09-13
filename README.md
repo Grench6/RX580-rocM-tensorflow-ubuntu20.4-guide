@@ -1,25 +1,25 @@
 # Installation of ROCm and TensorFlow on Ubuntu 20.4 LTS for Radeon RX580 
-**2021.9.13: Imrpoved kernel installation instructions for more clarity.**
+**2021.9.13: Updated kernel installation instructions**
 
 This guide will show you how to set up your **fresh Ubuntu 20.4 LTS** OS to be ready to run **TensorFlow** projects, using **ROCm** to take advantage of the power of your **RX580 graphics card (or any gfx803)** in a tested, easy and fast way (It should work on other supported Ubuntu versions and other graphic cards too, with only slight changes).
 
 It is basically a resume of the [official guide by AMD](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html), and the [unofficial guide by Mathieu Poliquin](https://www.videogames.ai/Install-ROCM-Machine-Learning-AMD-GPU). I highly recommend to check those links, in order to understand what you are doing and why.
 
 There is another important thing to notice: **In this guide we downgrade ROCm to 3.5.1**. There are two reasons for this:
-1. There are some bugs in posterior versions which have not been fixed yet, *not at all* (bugs: [1](https://github.com/RadeonOpenCompute/ROCm/issues/1269), [2](https://github.com/RadeonOpenCompute/ROCm/issues/1265)). 
-2. AMD dropped support for the RX580 ([1](https://github.com/RadeonOpenCompute/ROCm/issues/1353)).
-
-So, in the case you have a newer version already installed, you will have to remove it first.
+1. There are some bugs in posterior versions which have not been fixed yet, *not at all* (bugs: [1](https://github.com/RadeonOpenCompute/ROCm/issues/1269), [2](https://github.com/RadeonOpenCompute/ROCm/issues/1265))
+2. AMD dropped support for the RX580 ([1](https://github.com/RadeonOpenCompute/ROCm/issues/1353))
 
 Lets get started!
-## Remove ROCm (you can skip this step if you don't have ROCm installed)
-1. ```sudo apt autoremove rocm-dkms```
-2. Make sure that all packages are removed under /opt/rocm-xxx
-3. Check ```sudo dpkg -l | grep hsa``` (replace ```hsa``` with ```hip```, ```llvm```, ```rocm``` and ```rock```). Make sure that all packages are removed with ```sudo apt purge``` . I recommend to do the same for any other additional packages (if you installed anything explicitly).
-*I have occasionally removed the GUI for Ubuntu, so be careful!*
+## Remove ROCm
+**You can skip this step if you haven't installed ROCm yet**
+
+It's preferrable to do a fresh Ubuntu reinstall instead of removing ROCm, but
+if for some reason you still need to remove ROCm then follow the steps bellow:
+1. Run: ```sudo apt autoremove rocm-dkms```
+2. Make sure that all packages are removed under /opt/rocm-x
+3. Remove any other additional packages you installed explicitly with: ```sudo apt remove --purge```. To find relevant packages, you could use: `sudo dpkg -l | grep -E 'hsa|hip|llvm|rocm|rock'`.
 4. Reboot the system
 
-**It's preferrable to do a fresh Ubuntu reinstall instead of removing ROCm (strange bugs may occur).**
 ## Install the kernel
 ROCm requieres the kernel version 5.4 (you can check your currently running kernel version with `uname -r`).
 
@@ -27,7 +27,8 @@ ROCm requieres the kernel version 5.4 (you can check your currently running kern
 2. Reboot your computer. In the GRUB menu choose *"Additional options for Ubuntu"* and select *"Boot with kernel 5.4.0-x-generic"*
 3. Remove the other kernels: `sudo apt remove --purge linux-generic-hwe-20.04 linux-oem-20.04 linux-hwe-* linux-oem-* linux-modules-5.1* linux-modules-5.8.0-* linux-modules-5.6.0-* `
 
-At this point, if you check your currently running kernel you should see something like *"5.4.0-x-generic"*.
+- [x] **Check your progress:** You should see something like the following as the output of `uname -r`:
+> 5.4.0-x-generic
 
 ## Install ROCm 3.5.1
 ```
