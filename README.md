@@ -37,7 +37,7 @@ sudo reboot
 
 Add the repo and install rocm-dkms:
 ```
-wget -q -O - https://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | sudo apt-key add -
+wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
 echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/3.5.1/ xenial main' | sudo tee /etc/apt/sources.list.d/rocm.list
 sudo apt update
 sudo apt install rocm-dkms && sudo reboot
