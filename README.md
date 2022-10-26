@@ -20,8 +20,17 @@ if for some reason you still need to remove ROCm then follow the steps bellow:
 ## Install the kernel
 ROCm requieres the kernel version 5.4 (you can check your currently running kernel version with `uname -r`).
 
-1. Install the requiered kernel: `sudo apt install --install-recommends linux-generic`
+1. Install the requiered kernel: 
+
+   ```
+   sudo apt install linux-headers-5.4.0-54-generic \
+   linux-image-5.4.0-54-generic \
+   linux-modules-5.4.0-54-generic \
+   linux-modules-extra-5.4.0-54-generic  
+   ```
+
 2. Reboot your computer. In the GRUB menu choose *"Additional options for Ubuntu"* and select *"Boot with kernel 5.4.0-x-generic"*
+
 3. Remove the other kernels: `sudo apt remove --purge linux-generic-hwe-20.04 linux-oem-20.04 linux-hwe-* linux-oem-* linux-modules-5.1* linux-modules-5.8.0-* linux-modules-5.6.0-* `
 
 - [x] **Check your progress:** You should see something like the following as the output of `uname -r`:
@@ -61,8 +70,14 @@ sudo reboot
 
 You are half the way now!
 ## Install Tensorflow
+
 ```
 sudo apt install python3 python3-pip
+```
+
+> tensorflow-rocm 2.2.0 only supports Python3.5-3.8，if default version goes beyond the bound, or you want a spectific version, see [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+
+```
 sudo apt install rocm-libs miopen-hip
 pip3 install -Iv tensorflow-rocm==2.2.0
 sudo apt install rccl
