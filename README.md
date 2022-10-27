@@ -10,8 +10,8 @@ So... lets get started!
 ## Remove ROCm
 **You can skip this step if you haven't installed ROCm yet**
 
-It's preferrable to do a fresh Ubuntu reinstall instead of removing ROCm, but
-if for some reason you still need to remove ROCm then follow the steps bellow:
+It's preferrable to do a fresh Ubuntu reinstall instead of removing ROCm;
+if for some reason you still need to remove ROCm, follow the steps bellow:
 1. Run ```sudo apt autoremove rocm-dkms```
 2. Make sure that all packages are removed under */opt/rocm-x*
 3. Remove any other additional packages you installed explicitly with ```sudo apt remove --purge```. To find relevant packages, you can use `sudo dpkg -l | grep -E 'hsa|hip|llvm|rocm|rock'`.
@@ -75,7 +75,7 @@ You are half the way now!
 sudo apt install python3 python3-pip
 ```
 
-> tensorflow-rocm 2.2.0 only supports Python3.5-3.8，if default version goes beyond the bound, or you want a spectific version, see [deadsnakes](https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa).
+You must install a Python version between 3.5 and 3.8. If a different version is installed, check [this](https://www.linuxcapable.com/how-to-install-python-3-8-on-ubuntu-22-04-lts/).
 
 ```
 sudo apt install rocm-libs miopen-hip
@@ -110,7 +110,7 @@ git clone https://github.com/tensorflow/benchmarks
 cd ./benchmarks/scripts/tf_cnn_benchmarks
 python3 tf_cnn_benchmarks.py --num_gpus=1 --batch_size=32 --model=resnet50
 ```
-Expect it to take some time (5-10 minutes). If you see something like the output bellow (numbers may vary a lot, someone got 36.56) then go and get yourself a taco 🌮, you did it!
+Expect it to take some time (5-10 minutes). If you see something like the output bellow (numbers may vary a lot, someone got 36.56), then go and get yourself a taco 🌮, you did it!
 > total images/sec: 87.92
 
 ***Have fun! :D***
