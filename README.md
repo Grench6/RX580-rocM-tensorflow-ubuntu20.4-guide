@@ -73,6 +73,8 @@ You are half the way now!
 
 ```
 sudo apt install python3 python3-pip
+pip uninstall protobuf && pip install protobuf==3.20.*
+pip uninstall numpy && pip install numpy==1.19.5
 ```
 
 You must install a Python version between 3.5 and 3.8. If a different version is installed, check [this](https://www.linuxcapable.com/how-to-install-python-3-8-on-ubuntu-22-04-lts/).
